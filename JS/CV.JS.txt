@@ -1,0 +1,242 @@
+function gv(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+}
+
+function fmtDate(d) {
+    if (!d) return '';
+    const date = new Date(d);
+    const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+                    'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+    return `${months[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function go(n) {
+    document.querySelectorAll('.step-content').forEach(s => s.classList.add('hidden'));
+    document.getElementById('step' + n).classList.remove('hidden');
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.querySelector(`.step[data-step="${n}"]`)?.classList.add('active');
+    window.scrollTo(0, 0);
+}
+
+function addExp() {
+    const box = document.getElementById('expBox');
+    const div = document.createElement('div');
+    div.className = 'entry';
+    div.innerHTML = `
+        <input type="text" class="et" placeholder="المسمى الوظيفي">
+        <input type="text" class="ec" placeholder="اسم الشركة">
+        <input type="text" class="eci" placeholder="المدينة">
+        <input type="month" class="es" placeholder="تاريخ البدء">
+        <input type="month" class="ee" placeholder="تاريخ الانتهاء">
+        <textarea class="ed" placeholder="المهام والإنجازات (سطر لكل إنجاز)" rows="3"></textarea>
+        <button onclick="this.parentElement.remove()" style="background:#e74c3c">حذف</button>
+    `;
+    box.appendChild(div);
+}
+
+function addCourse() {
+    const box = document.getElementById('courseBox');
+    const div = document.createElement('div');
+    div.className = 'entry';
+    div.innerHTML = `
+        <input type="text" class="cName" placeholder="اسم الدورة">
+        <input type="text" class="cOrg" placeholder="الجهة المنظمة">
+        <input type="text" class="cYear" placeholder="السنة">
+        <button onclick="this.parentElement.remove()" style="background:#e74c3c">حذف</button>
+    `;
+    box.appendChild(div);
+}
+
+function addCert() {
+    const box = document.getElementById('certBox');
+    const div = document.createElement('div');
+    div.className = 'entry';
+    div.innerHTML = `
+        <input type="text" class="cn" placeholder="اسم الشهادة">
+        <input type="text" class="co" placeholder="الجهة المانحة">
+        <input type="text" class="cy" placeholder="السنة">
+        <button onclick="this.parentElement.remove()" style="background:#e74c3c">حذف</button>
+    `;
+    box.appendChild(div);
+}
+
+function addLang() {
+    const box = document.getElementById('langBox');
+    const div = document.createElement('div');
+    div.className = 'lang-entry';
+    div.innerHTML = `
+        <input type="text" class="ln" placeholder="اسم اللغة">
+        <select class="ll">
+            <option value="مبتدئ">مبتدئ</option>
+            <option value="متوسط">متوسط</option>
+            <option value="متقدم">متقدم</option>
+            <option value="إجادة تامة">إجادة تامة</option>
+        </select>
+    `;
+    box.appendChild(div);
+}
+
+const sk = { t: [], s: [] };
+
+function addSkill(type) {
+    const input = document.getElementById(type === 't' ? 'skT' : 'skS');
+    const val = input.value.trim();
+    if (!val) return;
+    sk[type].push(val);
+    input.value = '';
+    renderSkills(type);
+}
+
+function renderSkills(type) {
+    const list = document.getElementById(type === 't' ? 'skTList' : 'skSList');
+    list.innerHTML = sk[type].map((s, i) =>
+        `<span class="tag" onclick="removeSkill('${type}', ${i})">${s} ✕</span>`
+    ).join('');
+}
+
+function removeSkill(type, i) {
+    sk[type].splice(i, 1);
+    renderSkills(type);
+}
+
+function preview() {
+    document.getElementById('vName').textContent = gv('fname') || 'اسمك هنا';
+    document.getElementById('vTitle').textContent = gv('ftitle') || '';
+    document.getElementById('vEmail').textContent = gv('femail') || '';
+    document.getElementById('vPhone').textContent = gv('fphone') || '';
+    document.getElementById('vCity').textContent = gv('fcity') || '';
+
+    const lin = gv('fli');
+    if (lin) {
+        document.getElementById('vL').innerHTML = '<i class="fab fa-linkedin"></i> ' + lin.replace('https://', '');
+        document.getElementById('vL').style.display = 'inline';
+    } else {
+        document.getElementById('vL').style.display = 'none';
+    }
+
+    document.getElementById('vSum').textContent = gv('fsum') || 'لا يوجد ملخص.';
+
+    const entries = [...document.querySelectorAll('#expBox .entry')];
+    let expHTML = '';
+    let hasExp = false;
+    entries.forEach(e => {
+        const title = e.querySelector('.et')?.value?.trim() || '';
+        const company = e.querySelector('.ec')?.value?.trim() || '';
+        const start = e.querySelector('.es')?.value || '';
+        const end = e.querySelector('.ee')?.value || '';
+        const city = e.querySelector('.eci')?.value?.trim() || '';
+        const desc = e.querySelector('.ed')?.value?.trim() || '';
+
+        if (title && company) {
+            hasExp = true;
+            const startF = fmtDate(start);
+            const endF = end ? fmtDate(end) : 'حتى الآن';
+            const bullets = desc.split('\n').filter(l => l.trim()).map(l => {
+                let line = l.trim();
+                if (line.startsWith('•') || line.startsWith('-')) line = line.substring(1).trim();
+                return '<li>' + line + '</li>';
+            }).join('');
+
+            expHTML += `
+                <div class="p-exp">
+                    <div class="p-top">
+                        <div class="p-rt">${title}</div>
+                        <div class="p-dt">${startF} — ${endF}</div>
+                    </div>
+                    <div class="p-co">${company}${city ? ' | ' + city : ''}</div>
+                    <ul>${bullets}</ul>
+                </div>`;
+        }
+    });
+
+    document.getElementById('vExpSec').style.display = hasExp ? 'block' : 'none';
+    document.getElementById('vExp').innerHTML = expHTML;
+
+    const uni = gv('fu');
+    if (uni) {
+        document.getElementById('vEduSec').style.display = 'block';
+        document.getElementById('vEdu').innerHTML = `
+            <div class="p-edu">
+                <div class="p-deg">${gv('fd')} في ${gv('ff')}</div>
+                <div class="p-sch">${uni}</div>
+                <div class="p-yr">${gv('fy')}${gv('fgpa') ? ' | المعدل: ' + gv('fgpa') : ''}</div>
+            </div>`;
+    } else {
+        document.getElementById('vEduSec').style.display = 'none';
+    }
+
+    const schoolName = gv('fsn');
+    if (schoolName) {
+        document.getElementById('vSchSec').style.display = 'block';
+        document.getElementById('vSch').innerHTML = `
+            <div class="p-school">
+                <div class="p-deg">${schoolName}</div>
+                <div class="p-yr">${gv('fsy')}${gv('fst') ? ' | ' + gv('fst') : ''}${gv('fsl') ? ' | ' + gv('fsl') : ''}</div>
+            </div>`;
+    } else {
+        document.getElementById('vSchSec').style.display = 'none';
+    }
+
+    const courses = [...document.querySelectorAll('#courseBox .entry')];
+    let courseHTML = '';
+    let hasCourses = false;
+    courses.forEach(c => {
+        const name = c.querySelector('.cName')?.value?.trim() || '';
+        const org = c.querySelector('.cOrg')?.value?.trim() || '';
+        const year = c.querySelector('.cYear')?.value?.trim() || '';
+        if (name) {
+            hasCourses = true;
+            courseHTML += `
+                <div class="p-course">
+                    <div class="p-cname">${name}</div>
+                    <div class="p-corg">${org}${year ? ' (' + year + ')' : ''}</div>
+                </div>`;
+        }
+    });
+    document.getElementById('vCourseSec').style.display = hasCourses ? 'block' : 'none';
+    document.getElementById('vCourse').innerHTML = courseHTML;
+
+    const certs = [...document.querySelectorAll('#certBox .entry')];
+    let certHTML = '';
+    let hasCerts = false;
+    certs.forEach(c => {
+        const name = c.querySelector('.cn')?.value?.trim() || '';
+        const org = c.querySelector('.co')?.value?.trim() || '';
+        const year = c.querySelector('.cy')?.value?.trim() || '';
+        if (name) {
+            hasCerts = true;
+            certHTML += `<div class="p-txt">• ${name}${org ? ' — ' + org : ''}${year ? ' (' + year + ')' : ''}</div>`;
+        }
+    });
+    document.getElementById('vCertSec').style.display = hasCerts ? 'block' : 'none';
+    document.getElementById('vCert').innerHTML = certHTML;
+
+    const allSkills = [...sk.t, ...sk.s];
+    document.getElementById('vSk').innerHTML = allSkills.length
+        ? allSkills.map(s => `<span class="p-tg">${s}</span>`).join('')
+        : '<p class="p-txt">لم تتم إضافة مهارات.</p>';
+
+    const lns = document.querySelectorAll('.ln');
+    const lls = document.querySelectorAll('.ll');
+    let langHTML = '';
+    for (let i = 0; i < lns.length; i++) {
+        const name = lns[i].value?.trim();
+        const level = lls[i]?.value || '';
+        if (name) {
+            if (langHTML) langHTML += ' &nbsp;|&nbsp; ';
+            langHTML += `<strong>${name}</strong> — ${level}`;
+        }
+    }
+    document.getElementById('vLg').innerHTML = langHTML || '—';
+
+    go(5);
+    toast('✅ تم تحديث معاينة السيرة!');
+}

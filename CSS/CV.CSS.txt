@@ -1,0 +1,223 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.steps-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 15px;
+}
+
+.step {
+    padding: 10px 15px;
+    background: #f4f4f4;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #777;
+}
+
+.step.active {
+    background: #2c7be5;
+    color: white;
+    font-weight: bold;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #2c7be5;
+}
+
+h2 {
+    margin: 20px 0 10px;
+    color: #2c7be5;
+}
+
+h3 {
+    margin: 20px 0 10px;
+    color: #444;
+}
+
+button {
+    padding: 10px 20px;
+    background: #2c7be5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 10px 5px 0 0;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #1a5fc4;
+}
+
+.hidden {
+    display: none;
+}
+
+.entry {
+    background: #fafafa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #eee;
+}
+
+.lang-entry, .skill-input {
+    display: flex;
+    gap: 10px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.p-tg, .tag {
+    background: #e8f0fe;
+    color: #2c7be5;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.preview-paper {
+    background: white;
+    padding: 40px;
+    border: 1px solid #ddd;
+    margin: 20px 0;
+    min-height: 800px;
+}
+
+.p-header {
+    text-align: center;
+    border-bottom: 3px solid #2c7be5;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+}
+
+.p-header h1 {
+    color: #2c7be5;
+}
+
+.p-contact {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.p-contact span {
+    margin: 0 10px;
+}
+
+.preview-paper section {
+    margin: 20px 0;
+}
+
+.preview-paper h3 {
+    color: #2c7be5;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.p-exp {
+    margin-bottom: 15px;
+}
+
+.p-top {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.p-rt {
+    color: #333;
+}
+
+.p-dt {
+    color: #888;
+    font-size: 13px;
+}
+
+.p-co {
+    color: #666;
+    font-style: italic;
+    margin: 5px 0;
+}
+
+.p-exp ul {
+    padding-right: 20px;
+}
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 25px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1000;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+    .container {
+        box-shadow: none;
+        padding: 0;
+    }
+    .steps-bar, button, .step-content:not(#step5) {
+        display: none !important;
+    }
+    .preview-paper {
+        border: none;
+        padding: 20px;
+    }
+}

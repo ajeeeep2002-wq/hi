@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منشئ السيرة الذاتية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f0f2f5;color:#333;padding:20px;line-height:1.6}.container{max-width:900px;margin:0 auto;background:white;padding:30px;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,0.08)}.steps-bar{display:flex;justify-content:space-between;margin-bottom:30px;border-bottom:2px solid #eee;padding-bottom:15px}.step{padding:10px 15px;background:#f4f4f4;border-radius:20px;font-size:14px;color:#777}.step.active{background:#2c7be5;color:white;font-weight:bold}input,textarea,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:6px;font-size:14px;font-family:inherit}input:focus,textarea:focus{outline:none;border-color:#2c7be5}h2{margin:20px 0 10px;color:#2c7be5}h3{margin:20px 0 10px;color:#444}button{padding:10px 20px;background:#2c7be5;color:white;border:none;border-radius:6px;cursor:pointer;margin:10px 5px 0 0;font-size:14px;transition:0.2s}button:hover{background:#1a5fc4}.hidden{display:none}.entry{background:#fafafa;padding:15px;border-radius:8px;margin-bottom:10px;border:1px solid #eee}.lang-entry,.skill-input{display:flex;gap:10px}.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.p-tg,.tag{background:#e8f0fe;color:#2c7be5;padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer}.preview-paper{background:white;padding:40px;border:1px solid #ddd;margin:20px 0;min-height:800px}.p-header{text-align:center;border-bottom:3px solid #2c7be5;padding-bottom:20px;margin-bottom:25px}.p-header h1{color:#2c7be5}.p-contact{margin-top:10px;font-size:14px;color:#555}.p-contact span{margin:0 10px}.preview-paper section{margin:20px 0}.preview-paper h3{color:#2c7be5;border-bottom:1px solid #eee;padding-bottom:5px;margin-bottom:10px}.p-exp{margin-bottom:15px}.p-top{display:flex;justify-content:space-between;font-weight:bold}.p-rt{color:#333}.p-dt{color:#888;font-size:13px}.p-co{color:#666;font-style:italic;margin:5px 0}.p-exp ul{padding-right:20px}.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:12px 25px;border-radius:25px;opacity:0;transition:opacity 0.3s;z-index:1000}.toast.show{opacity:1}@media print{body{background:white;padding:0}.container{box-shadow:none;padding:0}.steps-bar,button,.step-content:not(#step5){display:none!important}.preview-paper{border:none;padding:20px}}</style>
+</head>
+<body>
+    <div class="container">
+        <div class="steps-bar">
+            <div class="step active" data-step="1">1. شخصي</div>
+            <div class="step" data-step="2">2. خبرة</div>
+            <div class="step" data-step="3">3. تعليم</div>
+            <div class="step" data-step="4">4. مهارات</div>
+            <div class="step" data-step="5">5. معاينة</div>
+        </div>
+        <div class="step-content" id="step1">
+            <h2>المعلومات الشخصية</h2>
+            <input type="text" id="fname" placeholder="الاسم الكامل">
+            <input type="text" id="ftitle" placeholder="المسمى الوظيفي">
+            <input type="email" id="femail" placeholder="البريد الإلكتروني">
+            <input type="tel" id="fphone" placeholder="رقم الهاتف">
+            <input type="text" id="fcity" placeholder="المدينة">
+            <input type="url" id="fli" placeholder="رابط LinkedIn">
+            <textarea id="fsum" placeholder="ملخص مهني..." rows="4"></textarea>
+            <button onclick="go(2)">التالي</button>
+        </div>
+        <div class="step-content hidden" id="step2">
+            <h2>الخبرات العملية</h2>
+            <div id="expBox"></div>
+            <button onclick="addExp()">+ إضافة خبرة</button>
+            <button onclick="go(1)">السابق</button>
+            <button onclick="go(3)">التالي</button>
+        </div>
+        <div class="step-content hidden" id="step3">
+            <h2>التعليم الجامعي</h2>
+            <input type="text" id="fu" placeholder="اسم الجامعة">
+            <input type="text" id="fd" placeholder="الدرجة">
+            <input type="text" id="ff" placeholder="التخصص">
+            <input type="text" id="fy" placeholder="سنة التخرج">
+            <input type="text" id="fgpa" placeholder="المعدل">
+            <h2>التعليم المدرسي</h2>
+            <input type="text" id="fsn" placeholder="اسم المدرسة">
+            <input type="text" id="fsy" placeholder="سنة التخرج">
+            <input type="text" id="fst" placeholder="القسم">
+            <input type="text" id="fsl" placeholder="الموقع">
+            <h3>الدورات التدريبية</h3>
+            <div id="courseBox"></div>
+            <button onclick="addCourse()">+ إضافة دورة</button>
+            <h3>الشهادات</h3>
+            <div id="certBox"></div>
+            <button onclick="addCert()">+ إضافة شهادة</button>
+            <button onclick="go(2)">السابق</button>
+            <button onclick="go(4)">التالي</button>
+        </div>
+        <div class="step-content hidden" id="step4">
+            <h2>المهارات التقنية</h2>
+            <div class="skill-input">
+                <input type="text" id="skT" placeholder="مهارة تقنية">
+                <button onclick="addSkill('t')">إضافة</button>
+            </div>
+            <div id="skTList" class="tags"></div>
+            <h2>المهارات الشخصية</h2>
+            <div class="skill-input">
+                <input type="text" id="skS" placeholder="مهارة شخصية">
+                <button onclick="addSkill('s')">إضافة</button>
+            </div>
+            <div id="skSList" class="tags"></div>
+            <h2>اللغات</h2>
+            <div id="langBox">
+                <div class="lang-entry">
+                    <input type="text" class="ln" placeholder="اسم اللغة">
+                    <select class="ll">
+                        <option value="مبتدئ">مبتدئ</option>
+                        <option value="متوسط">متوسط</option>
+                        <option value="متقدم">متقدم</option>
+                        <option value="إجادة تامة">إجادة تامة</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="addLang()">+ إضافة لغة</button>
+            <button onclick="go(3)">السابق</button>
+            <button onclick="preview()">معاينة السيرة</button>
+        </div>
+        <div class="step-content hidden" id="step5">
+            <div class="preview-paper">
+                <header class="p-header">
+                    <h1 id="vName"></h1>
+                    <p id="vTitle"></p>
+                    <div class="p-contact">
+                        <span id="vEmail"></span>
+                        <span id="vPhone"></span>
+                        <span id="vCity"></span>
+                        <span id="vL"></span>
+                    </div>
+                </header>
+                <section><h3>الملخص المهني</h3><p id="vSum"></p></section>
+                <section id="vExpSec"><h3>الخبرات العملية</h3><div id="vExp"></div></section>
+                <section id="vEduSec"><h3>التعليم الجامعي</h3><div id="vEdu"></div></section>
+                <section id="vSchSec"><h3>التعليم المدرسي</h3><div id="vSch"></div></section>
+                <section id="vCourseSec"><h3>الدورات التدريبية</h3><div id="vCourse"></div></section>
+                <section id="vCertSec"><h3>الشهادات</h3><div id="vCert"></div></section>
+                <section><h3>المهارات</h3><div id="vSk" class="tags"></div></section>
+                <section><h3>اللغات</h3><p id="vLg"></p></section>
+            </div>
+            <button onclick="go(4)">السابق</button>
+            <button onclick="window.print()">🖨️ طباعة</button>
+        </div>
+        <div id="toast" class="toast"></div>
+    </div>
+    <script>function gv(id){const el=document.getElementById(id);return el?el.value.trim():'';}function fmtDate(d){if(!d)return '';const date=new Date(d);const months=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];return `${months[date.getMonth()]} ${date.getFullYear()}`;}function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}function go(n){document.querySelectorAll('.step-content').forEach(s=>s.classList.add('hidden'));document.getElementById('step'+n).classList.remove('hidden');document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));document.querySelector(`.step[data-step="${n}"]`)?.classList.add('active');window.scrollTo(0,0);}function addExp(){const box=document.getElementById('expBox');const div=document.createElement('div');div.className='entry';div.innerHTML=`<input type="text" class="et" placeholder="المسمى الوظيفي"><input type="text" class="ec" placeholder="اسم الشركة"><input type="text" class="eci" placeholder="المدينة"><input type="month" class="es"><input type="month" class="ee"><textarea class="ed" placeholder="المهام" rows="3"></textarea><button onclick="this.parentElement.remove()" style="background:#e74c3c">حذف</button>`;box.appendChild(div);}function addCourse(){const box=document.getElementById('courseBox');const div=document.createElement('div');div.className='entry';div.innerHTML=`<input type="text" class="cName" placeholder="اسم الدورة"><input type="text" class="cOrg" placeholder="الجهة المنظمة"><input type="text" class="cYear" placeholder="السنة"><button onclick="this.parentElement.remove()" style="background:#e74c3c">حذف</button>`;box.appendChild(div);}function addCert(){const box=document.getElementById('certBox');const div=document.createElement('div');div.className='entry';div.innerHTML=`<input type="text" class="cn" placeholder="اسم الشهادة"><input type="text" class="co" placeholder="الجهة المانحة"><input type="text" class="cy" placeholder="السنة"><button onclick="this.parentElement.remove()" style="background:#e74c3c">حذف</button>`;box.appendChild(div);}function addLang(){const box=document.getElementById('langBox');const div=document.createElement('div');div.className='lang-entry';div.innerHTML=`<input type="text" class="ln" placeholder="اسم اللغة"><select class="ll"><option value="مبتدئ">مبتدئ</option><option value="متوسط">متوسط</option><option value="متقدم">متقدم</option><option value="إجادة تامة">إجادة تامة</option></select>`;box.appendChild(div);}const sk={t:[],s:[]};function addSkill(type){const input=document.getElementById(type==='t'?'skT':'skS');const val=input.value.trim();if(!val)return;sk[type].push(val);input.value='';renderSkills(type);}function renderSkills(type){const list=document.getElementById(type==='t'?'skTList':'skSList');list.innerHTML=sk[type].map((s,i)=>`<span class="tag" onclick="removeSkill('${type}',${i})">${s} ✕</span>`).join('');}function removeSkill(type,i){sk[type].splice(i,1);renderSkills(type);}function preview(){document.getElementById('vName').textContent=gv('fname')||'اسمك';document.getElementById('vTitle').textContent=gv('ftitle');document.getElementById('vEmail').textContent=gv('femail');document.getElementById('vPhone').textContent=gv('fphone');document.getElementById('vCity').textContent=gv('fcity');const lin=gv('fli');if(lin){document.getElementById('vL').innerHTML='<i class="fab fa-linkedin"></i> '+lin.replace('https://','');document.getElementById('vL').style.display='inline';}else{document.getElementById('vL').style.display='none';}document.getElementById('vSum').textContent=gv('fsum')||'لا يوجد ملخص';const entries=[...document.querySelectorAll('#expBox .entry')];let expHTML='';let hasExp=false;entries.forEach(e=>{const title=e.querySelector('.et')?.value?.trim()||'';const company=e.querySelector('.ec')?.value?.trim()||'';const start=e.querySelector('.es')?.value||'';const end=e.querySelector('.ee')?.value||'';const city=e.querySelector('.eci')?.value?.trim()||'';const desc=e.querySelector('.ed')?.value?.trim()||'';if(title&&company){hasExp=true;const startF=fmtDate(start);const endF=end?fmtDate(end):'حتى الآن';const bullets=desc.split('\n').filter(l=>l.trim()).map(l=>{let line=l.trim();if(line.startsWith('•')||line.startsWith('-'))line=line.substring(1).trim();return '<li>'+line+'</li>';}).join('');expHTML+=`<div class="p-exp"><div class="p-top"><div class="p-rt">${title}</div><div class="p-dt">${startF} — ${endF}</div></div><div class="p-co">${company}${city?' | '+city:''}</div><ul>${bullets}</ul></div>`;}});document.getElementById('vExpSec').style.display=hasExp?'block':'none';document.getElementById('vExp').innerHTML=expHTML;const uni=gv('fu');if(uni){document.getElementById('vEduSec').style.display='block';document.getElementById('vEdu').innerHTML=`<div class="p-edu"><div class="p-deg">${gv('fd')} في ${gv('ff')}</div><div class="p-sch">${uni}</div><div class="p-yr">${gv('fy')}${gv('fgpa')?' | المعدل: '+gv('fgpa'):''}</div></div>`;}else{document.getElementById('vEduSec').style.display='none';}const schoolName=gv('fsn');if(schoolName){document.getElementById('vSchSec').style.display='block';document.getElementById('vSch').innerHTML=`<div class="p-school"><div class="p-deg">${schoolName}</div><div class="p-yr">${gv('fsy')}${gv('fst')?' | '+gv('fst'):''}${gv('fsl')?' | '+gv('fsl'):''}</div></div>`;}else{document.getElementById('vSchSec').style.display='none';}const courses=[...document.querySelectorAll('#courseBox .entry')];let courseHTML='';let hasCourses=false;courses.forEach(c=>{const name=c.querySelector('.cName')?.value?.trim()||'';const org=c.querySelector('.cOrg')?.value?.trim()||'';const year=c.querySelector('.cYear')?.value?.trim()||'';if(name){hasCourses=true;courseHTML+=`<div class="p-course"><div class="p-cname">${name}</div><div class="p-corg">${org}${year?' ('+year+')':''}</div></div>`;}});document.getElementById('vCourseSec').style.display=hasCourses?'block':'none';document.getElementById('vCourse').innerHTML=courseHTML;const certs=[...document.querySelectorAll('#certBox .entry')];let certHTML='';let hasCerts=false;certs.forEach(c=>{const name=c.querySelector('.cn')?.value?.trim()||'';const org=c.querySelector('.co')?.value?.trim()||'';const year=c.querySelector('.cy')?.value?.trim()||'';if(name){hasCerts=true;certHTML+=`<div class="p-txt">• ${name}${org?' — '+org:''}${year?' ('+year+')':''}</div>`;}});document.getElementById('vCertSec').style.display=hasCerts?'block':'none';document.getElementById('vCert').innerHTML=certHTML;const allSkills=[...sk.t,...sk.s];document.getElementById('vSk').innerHTML=allSkills.length?allSkills.map(s=>`<span class="p-tg">${s}</span>`).join(''):'<p>لا توجد مهارات</p>';const lns=document.querySelectorAll('.ln');const lls=document.querySelectorAll('.ll');let langHTML='';for(let i=0;i<lns.length;i++){const name=lns[i].value?.trim();const level=lls[i]?.value||'';if(name){if(langHTML)langHTML+=' | ';langHTML+=`<strong>${name}</strong> — ${level}`;}}document.getElementById('vLg').innerHTML=langHTML||'—';go(5);toast('✅ تم التحديث');}</script>
+</body>
+</html>
